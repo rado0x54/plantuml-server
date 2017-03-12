@@ -1,6 +1,6 @@
 PlantUML Server 
 ===============
-[![Build Status](https://travis-ci.org/plantuml/plantuml-server.png?branch=master)](https://travis-ci.org/plantuml/plantuml-server)
+[![Build Status](https://travis-ci.org/rado0x54/plantuml-server.png?branch=master)](https://travis-ci.org/rado0x54/plantuml-server)
 
 PlantUML Server is a web application to generate UML diagrams on-the-fly.
 
@@ -11,8 +11,7 @@ To know more about PlantUML, please visit http://plantuml.sourceforge.net/.
 Requirements
 ============
 
- * jre/jdk 1.6.0 or above
- * apache maven 3.0.2 or above
+ * jre/jdk 1.8.0 or above
 
 How to run the server
 =====================
@@ -20,17 +19,12 @@ How to run the server
 Just run:
 
 ```
-mvn jetty:run
+./gradlew appRun
 ```
 
-The server is now listing to [http://localhost:8080/plantuml](http://localhost:8080/plantuml).
-In this way the server is run on an embedded jetty server. 
+The server is now listing to [http://localhost:8080/](http://localhost:8080/).
+In this way the server is run on an embedded jetty (or tomcat) server. 
 
-You can specify the port at which it runs:
-
-```
-mvn jetty:run -Djetty.port=9999"
-```
 
 How to run the server with Docker
 =================================
@@ -51,7 +45,7 @@ How to generate the war
 To build the war, just run:
 
 ```
-mvn package
+./gradlew war
 ```
 
-at the root directory of the project to produce plantuml.war in the target/ directory.
+at the root directory of the project to produce plantumlservlet-*.war in the build/libs/ directory.
