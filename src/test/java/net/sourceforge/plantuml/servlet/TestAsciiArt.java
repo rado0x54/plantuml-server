@@ -5,6 +5,10 @@ import com.meterware.httpunit.WebConversation;
 import com.meterware.httpunit.WebRequest;
 import com.meterware.httpunit.WebResponse;
 
+import java.nio.charset.Charset;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 public class TestAsciiArt extends WebappTestCase {
 
     /**
@@ -17,7 +21,7 @@ public class TestAsciiArt extends WebappTestCase {
         // Analyze response
         // Verifies the Content-Type header
         assertEquals("Response content type is not TEXT PLAIN", "text/plain", response.getContentType());
-        assertEquals("Response character set is not UTF-8", "UTF-8", response.getCharacterSet());
+        assertEquals("Response character set is not UTF-8", UTF_8, Charset.forName(response.getCharacterSet()));
         // Get the content and verify its size
         String diagram = response.getText();
         int diagramLen = diagram.length();

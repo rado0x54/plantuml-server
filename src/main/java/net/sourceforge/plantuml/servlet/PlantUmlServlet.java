@@ -181,6 +181,4 @@ public class PlantUmlServlet extends HttpServlet {
         return is;
     }
 
-
-
 }

@@ -38,6 +38,8 @@ import net.sourceforge.plantuml.StringUtils;
 import net.sourceforge.plantuml.core.DiagramDescription;
 import net.sourceforge.plantuml.servlet.utility.NullOutputStream;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 /**
  * Delegates the diagram generation from the UML source and the filling of the HTTP response with the diagram in the
  * right format. Its own responsibility is to produce the right HTTP headers.
@@ -47,10 +49,10 @@ class DiagramResponse {
     private FileFormat format;
     private static final Map<FileFormat, String> CONTENT_TYPE;
     static {
-        Map<FileFormat, String> map = new HashMap<FileFormat, String>();
+        Map<FileFormat, String> map = new HashMap<>();
         map.put(FileFormat.PNG, "image/png");
         map.put(FileFormat.SVG, "image/svg+xml");
-        map.put(FileFormat.UTXT, "text/plain;charset=UTF-8");
+        map.put(FileFormat.UTXT, "text/plain;charset=" + UTF_8);
         CONTENT_TYPE = Collections.unmodifiableMap(map);
     }
 
