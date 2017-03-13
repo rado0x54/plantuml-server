@@ -1,6 +1,6 @@
 PlantUML Server 
 ===============
-[![Build Status](https://travis-ci.org/rado0x54/plantuml-server.png?branch=master)](https://travis-ci.org/rado0x54/plantuml-server)
+Master Branch: [![Build Status](https://travis-ci.org/rado0x54/plantuml-server.png?branch=master)](https://travis-ci.org/rado0x54/plantuml-server)
 
 PlantUML Server is a web application to generate UML diagrams on-the-fly.
 
@@ -19,7 +19,7 @@ How to run the server
 Just run:
 
 ```
-./gradlew appRun
+gradle appRun
 ```
 
 The server is now listing to [http://localhost:8080/](http://localhost:8080/).
@@ -30,11 +30,11 @@ How to run the server with Docker
 =================================
 
 ```
-docker build -t plantuml-server .
-docker run -d -p 8080:8080 plantuml-server
+docker build -t plantuml .
+docker run -d -p 8080:8080 plantuml
 ```
 
-The server is now listing to [http://localhost:8080/plantuml](http://localhost:8080/plantuml).
+The server is now listing to [http://localhost:8080](http://localhost:8080).
 
 You may specity the port in `-p` Docker command line argument.
 
@@ -45,7 +45,7 @@ How to generate the war
 To build the war, just run:
 
 ```
-./gradlew war
+gradle war
 ```
 
-at the root directory of the project to produce plantumlservlet-*.war in the build/libs/ directory.
+at the root directory of the project to produce plantuml.war in the `build/libs/` directory.
