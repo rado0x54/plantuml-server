@@ -16,5 +16,5 @@ script:
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker push $DOCKER_USER/$PROJECT_NAME:rev-`git rev-parse --short HEAD`;
-    docker push $DOCKER_USER/$PROJECT_NAME:latest
+    docker push $DOCKER_USER/$PROJECT_NAME:latest;
     fi
