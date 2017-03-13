@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sourceforge.plantuml.FileFormat;
+import net.sourceforge.plantuml.common.Constants;
 import net.sourceforge.plantuml.servlet.utility.UmlExtractor;
 
 /**
@@ -42,9 +43,12 @@ public abstract class UmlDiagramService extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        // build the UML source from the compressed request parameter
-        String uml = UmlExtractor.getUmlSource(getSource(request.getRequestURI()));
-
+        // By default use uml parameter with URL ENC Content
+        String uml = request.getParameter(Constants.UML_URL_ENC_PARAMETER);
+        if (uml == null) {
+            // build the UML source from the compressed request parameter
+            uml = UmlExtractor.getUmlSource(getSource(request.getRequestURI()));
+        }
         // generate the response
         DiagramResponse dr = new DiagramResponse(response, getOutputFormat());
         try {

@@ -61,10 +61,6 @@ import static net.sourceforge.plantuml.common.Constants.BOB_ALICE_HELLO_ENC;
 public class PlantUmlServlet extends HttpServlet {
 
     // Last part of the URL
-    public static final Pattern URL_PATTERN = Pattern.compile("^.*[^a-zA-Z0-9\\-\\_]([a-zA-Z0-9\\-\\_]+)");
-
-    private static final Pattern RECOVER_UML_PATTERN = Pattern.compile("/\\w+/uml/(.*)");
-
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
@@ -136,14 +132,14 @@ public class PlantUmlServlet extends HttpServlet {
     private static String getTextFromUrl(HttpServletRequest request, String text) throws IOException {
 
         String url = request.getParameter("url");
-        final Matcher recoverUml = RECOVER_UML_PATTERN.matcher(request.getRequestURI());
+        final Matcher recoverUml = Constants.REGEX_UML_PATTERN.matcher(request.getRequestURI());
         // the URL form has been submitted
         if (recoverUml.matches()) {
             final String data = recoverUml.group(1);
             text = getTranscoder().decode(data);
         } else if (url != null && !url.trim().isEmpty()) {
             // Catch the last part of the URL if necessary
-            final Matcher m1 = URL_PATTERN.matcher(url);
+            final Matcher m1 = Constants.REGEX_URL_LAST_PATH_PATTERN.matcher(url);
             if (m1.find()) {
                 url = m1.group(1);
             }

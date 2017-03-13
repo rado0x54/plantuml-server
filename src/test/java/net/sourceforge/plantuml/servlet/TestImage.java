@@ -2,6 +2,8 @@ package net.sourceforge.plantuml.servlet;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -66,12 +68,31 @@ public class TestImage extends WebappTestCase {
     }
 
     /**
-     * Verifies that the HTTP header of a diagram incites the browser to cache it.
+     * Verifies that the legacy /img/ URL is still working
      */
     public void testOldImgURL() throws Exception {
         WebConversation conversation = new WebConversation();
         // Bob -> Alice : hello
         WebRequest request = new GetMethodWebRequest(getServerUrl() + "img/" + Constants.BOB_ALICE_HELLO_ENC);
+        WebResponse response = conversation.getResource(request);
+        // Analyze response
+        // Verifies the Content-Type header
+        assertEquals("Response content type is not IMG", "image/png", response.getContentType());
+        // Consume the response
+        InputStream responseStream = response.getInputStream();
+        while (responseStream.read() != -1) {
+            // Do nothing
+        }
+    }
+
+
+    /**
+     * Verifies that URL-ENC Images are generated
+     */
+    public void testUrlEncImgURL() throws Exception {
+        WebConversation conversation = new WebConversation();
+        // Bob -> Alice : hello
+        WebRequest request = new GetMethodWebRequest(getServerUrl() + "png?uml=" + URLEncoder.encode(Constants.BOB_ALICE_HELLO_DEC, StandardCharsets.UTF_8.toString()));
         WebResponse response = conversation.getResource(request);
         // Analyze response
         // Verifies the Content-Type header

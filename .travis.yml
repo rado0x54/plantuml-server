@@ -1,4 +1,20 @@
+env:
+  global:
+    - DOCKER_USER=rado0x54
+    - PROJECT_NAME=plantuml
+    - secure: "uxnrYJJy8XalfGWT6ZR71+07k/4q/+suUzLNtZDhVEzx3NdmN5DEM+yWyXlnzVESxqT111RqfeYkECDtHkxcsvg6qRgGr+Bi8Q7yuSUc2eAYpeTTBf28WH+KadnecjYNuaElrjB2ekOU9SCEsgBk4EFbMbHRYm4FgJGe6jScyDGb7p6SOaO4rj1a36Vx3mUkvwbbzfwXkufrlg+TL7c2itJwBuI9w2ojtuztc3nPP//dZb6ZYuMUxjHpmdWVtdYTME5mLO/9ijfFZqGPgXcT+Dtx3BVPrTeYu/OoPckU1Duew+wCCYk7WRIEyzmFcehZFc3xntOPExOtNU5jQYhbF5x6B2QRiNciLTVeJ9hRLr9A7C5hYuwYzfA21qUrktU6yFRdBwtr1MEOouGIueJH0DKvNSq8mbQEvbFjZB8HjrCegrPwDBKVv+bR8tU/9Is0LsBI8t2a9dpRLAQZ2ZzU/Vvr2IPfdhSHRjtR5XmMxnwH2zfvZ9iEqQGgh6kWuMKedrFwLnPNq45Iwj83mGu4CAx+hkem8tTbCYendzpMjPXH9cZ2jPiQrifCDChqxL9rZ03i8ZjpzLup3IzuwSjDmiUpBz4lDAOLCcMau8d5cAdSwYU6ikz9ppL7p+RrKy3LQjXJ3EImaHuUGPpKOmUFyVR5s81FpQWF5ejdnoFAK5c="
 language: java
 jdk: oraclejdk8
+services:
+  - docker
+before_script:
+  - docker login -u="$DOCKER_USER" -p="$DOCKER_PW"
 script:
-- gradle test
+  - gradle test
+  - gradle war
+  - docker build -t $DOCKER_USER/$PROJECT_NAME:rev-`git rev-parse --short HEAD` -t $DOCKER_USER/$PROJECT_NAME:latest .
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker push $DOCKER_USER/$PROJECT_NAME:rev-`git rev-parse --short HEAD`;
+    docker push $DOCKER_USER/$PROJECT_NAME:latest
+    fi

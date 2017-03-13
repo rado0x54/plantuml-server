@@ -1,5 +1,7 @@
 package net.sourceforge.plantuml.common;
 
+import java.util.regex.Pattern;
+
 /**
  * Created by Martin Riedel on 13/03/2017.
  *
@@ -13,5 +15,12 @@ public final class Constants {
 
     public static final String ENCODED_ATTRIBUTE_NAME = "encoded";
     public static final String DECODED_ATTRIBUTE_NAME = "decoded";
+
+    public static final String UML_URL_ENC_PARAMETER = "uml";
+
+
+    public static final Pattern REGEX_URL_LAST_PATH_PATTERN = Pattern.compile("^.*[^a-zA-Z0-9\\-\\_]([a-zA-Z0-9\\-\\_]+)");
+
+    public static final Pattern REGEX_UML_PATTERN = Pattern.compile(".*/uml/(.*)");
 
 }

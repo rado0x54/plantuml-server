@@ -26,6 +26,7 @@ package net.sourceforge.plantuml.servlet.utility;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 
 import net.sourceforge.plantuml.code.Transcoder;
 import net.sourceforge.plantuml.code.TranscoderUtil;
@@ -48,7 +49,7 @@ public class UmlExtractor {
         // build the UML source from the compressed part of the URL
         String text;
         try {
-            text = URLDecoder.decode(source, "UTF-8");
+            text = URLDecoder.decode(source, StandardCharsets.UTF_8.toString());
         } catch (UnsupportedEncodingException uee) {
             text = "' invalid encoded string";
         }

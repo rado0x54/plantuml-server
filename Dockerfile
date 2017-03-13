@@ -1,7 +1,8 @@
-FROM maven:3-jdk-8
+FROM jetty
 
-RUN apt-get update && apt-get install -y --no-install-recommends graphviz && rm -rf /var/lib/apt/lists/*
-ADD . /app
-WORKDIR /app
+ADD build/libs/plantuml.war /var/lib/jetty/webapps/root.war
+
 EXPOSE 8080
-CMD ["mvn", "jetty:run"]
+
+HEALTHCHECK --interval=30s --timeout=3s \
+  CMD curl -f http://localhost:8080/ || exit 1

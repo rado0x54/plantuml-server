@@ -6,6 +6,8 @@ import com.meterware.httpunit.WebRequest;
 import com.meterware.httpunit.WebResponse;
 import net.sourceforge.plantuml.common.Constants;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class TestSVG extends WebappTestCase {
@@ -32,6 +34,33 @@ public class TestSVG extends WebappTestCase {
     public void testSequenceDiagramContent() throws Exception {
         WebConversation conversation = new WebConversation();
         WebRequest request = new GetMethodWebRequest(getServerUrl() + "svg/" + Constants.BOB_ALICE_HELLO_ENC);
+        WebResponse response = conversation.getResource(request);
+        // Analyze response
+        // Get the data contained in the XML
+        Scanner s = new Scanner(response.getInputStream()).useDelimiter("(<([^<>]+)>)+");
+        String token;
+        int bobCounter = 0, aliceCounter = 0;
+        while (s.hasNext()) {
+            token = s.next();
+            if (token.startsWith("Bob")) {
+                bobCounter++;
+            }
+            if (token.startsWith("Alice")) {
+                aliceCounter++;
+            }
+        }
+        assertTrue(bobCounter == 2);
+        assertTrue(aliceCounter == 2);
+    }
+
+
+    /**
+     * Verifies that URL-ENC SVG Images are generated
+     */
+    public void testSimpleSequenceDiagramUrlEnc() throws Exception {
+        WebConversation conversation = new WebConversation();
+        // Bob -> Alice : hello
+        WebRequest request = new GetMethodWebRequest(getServerUrl() + "svg?uml=" + URLEncoder.encode(Constants.BOB_ALICE_HELLO_DEC, StandardCharsets.UTF_8.toString()));
         WebResponse response = conversation.getResource(request);
         // Analyze response
         // Get the data contained in the XML
