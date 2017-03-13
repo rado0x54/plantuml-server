@@ -38,3 +38,7 @@ dependencies {
 
 //    providedRuntime group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
 }
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.4.1'
+}
