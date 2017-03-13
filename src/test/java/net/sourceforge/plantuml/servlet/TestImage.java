@@ -10,6 +10,7 @@ import com.meterware.httpunit.GetMethodWebRequest;
 import com.meterware.httpunit.WebConversation;
 import com.meterware.httpunit.WebRequest;
 import com.meterware.httpunit.WebResponse;
+import net.sourceforge.plantuml.common.Constants;
 
 public class TestImage extends WebappTestCase {
     /**
@@ -34,7 +35,7 @@ public class TestImage extends WebappTestCase {
         byte[] inMemoryImage = imageStream.toByteArray();
         int diagramLen = inMemoryImage.length;
         assertTrue(diagramLen > 10000);
-        assertTrue(diagramLen < 20000);
+        assertTrue(diagramLen < 60000);
         responseStream.close();
     }
 
@@ -44,7 +45,7 @@ public class TestImage extends WebappTestCase {
     public void testDiagramHttpHeader() throws Exception {
         WebConversation conversation = new WebConversation();
         // Bob -> Alice : hello
-        WebRequest request = new GetMethodWebRequest(getServerUrl() + "png/" + TestUtils.SEQBOB);
+        WebRequest request = new GetMethodWebRequest(getServerUrl() + "png/" + Constants.BOB_ALICE_HELLO_ENC);
         WebResponse response = conversation.getResource(request);
         // Analyze response
         // Verifies the Content-Type header
@@ -70,7 +71,7 @@ public class TestImage extends WebappTestCase {
     public void testOldImgURL() throws Exception {
         WebConversation conversation = new WebConversation();
         // Bob -> Alice : hello
-        WebRequest request = new GetMethodWebRequest(getServerUrl() + "img/" + TestUtils.SEQBOB);
+        WebRequest request = new GetMethodWebRequest(getServerUrl() + "img/" + Constants.BOB_ALICE_HELLO_ENC);
         WebResponse response = conversation.getResource(request);
         // Analyze response
         // Verifies the Content-Type header

@@ -40,7 +40,10 @@ import javax.servlet.http.HttpServletResponse;
 import net.sourceforge.plantuml.api.PlantumlUtils;
 import net.sourceforge.plantuml.code.Transcoder;
 import net.sourceforge.plantuml.code.TranscoderUtil;
+import net.sourceforge.plantuml.common.Constants;
 import net.sourceforge.plantuml.png.MetadataTag;
+
+import static net.sourceforge.plantuml.common.Constants.BOB_ALICE_HELLO_ENC;
 
 /*
  * Original idea from Achim Abeling for Confluence macro
@@ -57,8 +60,6 @@ import net.sourceforge.plantuml.png.MetadataTag;
 @SuppressWarnings("serial")
 public class PlantUmlServlet extends HttpServlet {
 
-    private static final String DEFAULT_ENCODED_TEXT = "SyfFKj2rKt3CoKnELR1Io4ZDoSa70000";
-
     // Last part of the URL
     public static final Pattern URL_PATTERN = Pattern.compile("^.*[^a-zA-Z0-9\\-\\_]([a-zA-Z0-9\\-\\_]+)");
 
@@ -66,9 +67,11 @@ public class PlantUmlServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        request.setCharacterEncoding("UTF-8");
+
         String text = request.getParameter("text");
 
+
+        // TODO: What does "metadata" do?
         String metadata = request.getParameter("metadata");
         if (metadata != null) {
             InputStream img = null;
@@ -85,6 +88,7 @@ public class PlantUmlServlet extends HttpServlet {
                 }
             }
         }
+
         try {
             text = getTextFromUrl(request, text);
         } catch (Exception e) {
@@ -93,13 +97,13 @@ public class PlantUmlServlet extends HttpServlet {
 
         // no Text form has been submitted
         if (text == null || text.trim().isEmpty()) {
-            redirectNow(request, response, DEFAULT_ENCODED_TEXT);
+            redirectNow(request, response, BOB_ALICE_HELLO_ENC);
             return;
         }
 
         final String encoded = getTranscoder().encode(text);
-        request.setAttribute("decoded", text);
-        request.setAttribute("encoded", encoded);
+        request.setAttribute(Constants.DECODED_ATTRIBUTE_NAME, text);
+        request.setAttribute(Constants.ENCODED_ATTRIBUTE_NAME, encoded);
 
         // check if an image map is necessary
         if (text != null && PlantumlUtils.hasCMapData(text)) {
@@ -114,10 +118,10 @@ public class PlantUmlServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
-        request.setCharacterEncoding("UTF-8");
+
 
         String text = request.getParameter("text");
-        String encoded = DEFAULT_ENCODED_TEXT;
+        String encoded = BOB_ALICE_HELLO_ENC;
 
         try {
             text = getTextFromUrl(request, text);
@@ -129,7 +133,8 @@ public class PlantUmlServlet extends HttpServlet {
         redirectNow(request, response, encoded);
     }
 
-    private String getTextFromUrl(HttpServletRequest request, String text) throws IOException {
+    private static String getTextFromUrl(HttpServletRequest request, String text) throws IOException {
+
         String url = request.getParameter("url");
         final Matcher recoverUml = RECOVER_UML_PATTERN.matcher(request.getRequestURI());
         // the URL form has been submitted
@@ -143,6 +148,8 @@ public class PlantUmlServlet extends HttpServlet {
                 url = m1.group(1);
             }
             text = getTranscoder().decode(url);
+        } else {
+            // keep original text
         }
         return text;
     }
@@ -153,7 +160,7 @@ public class PlantUmlServlet extends HttpServlet {
         response.sendRedirect(result);
     }
 
-    private Transcoder getTranscoder() {
+    private static Transcoder getTranscoder() {
         return TranscoderUtil.getDefaultTranscoder();
     }
 

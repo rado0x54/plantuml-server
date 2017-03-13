@@ -6,6 +6,8 @@ import com.meterware.httpunit.WebConversation;
 import com.meterware.httpunit.WebForm;
 import com.meterware.httpunit.WebRequest;
 import com.meterware.httpunit.WebResponse;
+import net.sourceforge.plantuml.code.TranscoderUtil;
+import net.sourceforge.plantuml.common.Constants;
 
 public class TestForm extends WebappTestCase {
 
@@ -20,7 +22,11 @@ public class TestForm extends WebappTestCase {
         WebForm[] forms = response.getForms();
         assertEquals(2, forms.length);
         assertEquals("url", forms[1].getParameterNames()[0]);
-        assertTrue(forms[1].getParameterValue("url").endsWith("/png/" + TestUtils.SEQBOB));
+        // Ensure the Text field defaults to ALICE_BOB
+        String defaultText = TranscoderUtil.getDefaultTranscoder().decode(Constants.BOB_ALICE_HELLO_ENC);
+        assertEquals(defaultText, forms[0].getParameterValue("text"));
+        // Ensure the URL field is empty
+        assertEquals(getServerUrl() + "png/" + Constants.BOB_ALICE_HELLO_ENC, forms[1].getParameterValue("url"));
         // Ensure the generated image is present
         assertNotNull(response.getImageWithAltText("PlantUML diagram"));
     }
@@ -40,7 +46,7 @@ public class TestForm extends WebappTestCase {
         WebForm[] forms = response.getForms();
         assertEquals(2, forms.length);
         // Ensure the Text field is correct
-        assertEquals("version", forms[0].getParameterValue("text"));
+        assertEquals("@startuml\nversion\n@enduml", forms[0].getParameterValue("text"));
         // Ensure the URL field is correct
         assertTrue(forms[1].getParameterValue("url").endsWith("/png/" + TestUtils.VERSION));
         // Ensure the image is present
@@ -61,12 +67,13 @@ public class TestForm extends WebappTestCase {
         // Analyze response
         WebForm[] forms = response.getForms();
         assertEquals(2, forms.length);
-        // Ensure the Text field is empty
-        assertNull(forms[0].getParameterValue("text"));
+
+        // Ensure the Text field defaults to ALICE_BOB
+        String defaultText = TranscoderUtil.getDefaultTranscoder().decode(Constants.BOB_ALICE_HELLO_ENC);
+        assertEquals(defaultText, forms[0].getParameterValue("text"));
         // Ensure the URL field is empty
-        assertTrue(forms[1].getParameterValue("url").isEmpty());
-        // Ensure there is no image
-        assertNull(response.getImageWithAltText("PlantUML diagram"));
+        assertEquals(getServerUrl() + "png/" + Constants.BOB_ALICE_HELLO_ENC, forms[1].getParameterValue("url"));
+        assertNotNull(response.getImageWithAltText("PlantUML diagram"));
     }
 
     /**
@@ -83,12 +90,12 @@ public class TestForm extends WebappTestCase {
         // Analyze response
         WebForm[] forms = response.getForms();
         assertEquals(2, forms.length);
-        // Ensure the Text field is empty
-        assertNull(forms[0].getParameterValue("text"));
+        // Ensure the Text field defaults to ALICE_BOB
+        String defaultText = TranscoderUtil.getDefaultTranscoder().decode(Constants.BOB_ALICE_HELLO_ENC);
+        assertEquals(defaultText, forms[0].getParameterValue("text"));
         // Ensure the URL field is empty
-        assertTrue(forms[1].getParameterValue("url").isEmpty());
-        // Ensure there is no image
-        assertNull(response.getImageWithAltText("PlantUML diagram"));
+        assertEquals(getServerUrl() + "png/" + Constants.BOB_ALICE_HELLO_ENC, forms[1].getParameterValue("url"));
+        assertNotNull(response.getImageWithAltText("PlantUML diagram"));
     }
 
     /**
@@ -139,15 +146,15 @@ public class TestForm extends WebappTestCase {
     public void testUrlParameter() throws Exception {
         WebConversation conversation = new WebConversation();
         // Submit the request with a url parameter
-        WebRequest request = new GetMethodWebRequest(getServerUrl() + "form?url=" + TestUtils.SEQBOB);
+        WebRequest request = new GetMethodWebRequest(getServerUrl() + "form?url=" + Constants.BOB_ALICE_HELLO_ENC);
         WebResponse response = conversation.getResponse(request);
         // Analyze response
         WebForm[] forms = response.getForms();
         assertEquals(2, forms.length);
         // Ensure the Text field is filled
-        assertEquals(forms[0].getParameterValue("text"), "@startuml\nBob -> Alice : hello\n@enduml");
+        assertEquals(forms[0].getParameterValue("text"), Constants.BOB_ALICE_HELLO_DEC);
         // Ensure the URL field is filled
-        assertEquals(forms[1].getParameterValue("url"), getServerUrl() + "png/" + TestUtils.SEQBOB);
+        assertEquals(forms[1].getParameterValue("url"), getServerUrl() + "png/" + Constants.BOB_ALICE_HELLO_ENC);
         // Ensure the image is present
         assertNotNull(response.getImageWithAltText("PlantUML diagram"));
     }

@@ -4,6 +4,7 @@ import com.meterware.httpunit.GetMethodWebRequest;
 import com.meterware.httpunit.WebConversation;
 import com.meterware.httpunit.WebRequest;
 import com.meterware.httpunit.WebResponse;
+import net.sourceforge.plantuml.common.Constants;
 
 import java.nio.charset.Charset;
 
@@ -56,7 +57,7 @@ public class TestMap extends WebappTestCase {
      */
     public void testSequenceDiagramWithoutLink() throws Exception {
         WebConversation conversation = new WebConversation();
-        WebRequest request = new GetMethodWebRequest(getServerUrl() + "map/" + TestUtils.SEQBOB);
+        WebRequest request = new GetMethodWebRequest(getServerUrl() + "map/" + Constants.BOB_ALICE_HELLO_ENC);
         WebResponse response = conversation.getResource(request);
         // Analyze response
         // Verifies the Content-Type header

@@ -4,6 +4,7 @@ import com.meterware.httpunit.GetMethodWebRequest;
 import com.meterware.httpunit.WebConversation;
 import com.meterware.httpunit.WebRequest;
 import com.meterware.httpunit.WebResponse;
+import net.sourceforge.plantuml.common.Constants;
 
 import java.nio.charset.Charset;
 
@@ -16,7 +17,7 @@ public class TestAsciiArt extends WebappTestCase {
      */
     public void testSimpleSequenceDiagram() throws Exception {
         WebConversation conversation = new WebConversation();
-        WebRequest request = new GetMethodWebRequest(getServerUrl() + "txt/" + TestUtils.SEQBOB);
+        WebRequest request = new GetMethodWebRequest(getServerUrl() + "txt/" + Constants.BOB_ALICE_HELLO_ENC);
         WebResponse response = conversation.getResource(request);
         // Analyze response
         // Verifies the Content-Type header

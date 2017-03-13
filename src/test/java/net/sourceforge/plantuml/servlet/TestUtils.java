@@ -15,10 +15,6 @@ public class TestUtils {
      */
     public static final String VERSION = "AqijAixCpmC0";
 
-    /*
-     * Bob -> Alice : hello
-     */
-    public static final String SEQBOB = "SyfFKj2rKt3CoKnELR1Io4ZDoSa70000";
 
     protected TestUtils() {
         // prevents calls from subclass
