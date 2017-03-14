@@ -1,5 +1,8 @@
 FROM jetty
 
+# PlantUML requires Graphviz
+RUN apt-get -y update && apt-get install -y graphviz
+
 ADD build/libs/plantuml.war /var/lib/jetty/webapps/root.war
 
 EXPOSE 8080
