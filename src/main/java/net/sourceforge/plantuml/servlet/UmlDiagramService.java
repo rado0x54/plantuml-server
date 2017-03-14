@@ -49,6 +49,10 @@ public abstract class UmlDiagramService extends HttpServlet {
             // build the UML source from the compressed request parameter
             uml = UmlExtractor.getUmlSource(getSource(request.getRequestURI()));
         }
+
+        // optional add of @startuml @enduml tags...
+        uml = UmlExtractor.encapsulateUmlSyntax(uml);
+
         // generate the response
         DiagramResponse dr = new DiagramResponse(response, getOutputFormat());
         try {

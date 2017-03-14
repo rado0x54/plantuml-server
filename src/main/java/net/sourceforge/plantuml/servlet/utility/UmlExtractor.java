@@ -61,6 +61,11 @@ public class UmlExtractor {
         }
 
         // encapsulate the UML syntax if necessary
+        return text;
+    }
+
+
+    public static String encapsulateUmlSyntax(String text) {
         String uml;
         if (text.startsWith("@start")) {
             uml = text;
@@ -76,6 +81,7 @@ public class UmlExtractor {
         }
         return uml;
     }
+
 
     protected UmlExtractor() {
         // prevents calls from subclass

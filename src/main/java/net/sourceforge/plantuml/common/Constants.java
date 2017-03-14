@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 public final class Constants {
 
 
+    public static final String BOB_ALICE_HELLO_DEC_NO_TAGS = "Bob -> Alice : hello";
     public static final String BOB_ALICE_HELLO_DEC = "@startuml\nBob -> Alice : hello\n@enduml";
     public static final String BOB_ALICE_HELLO_ENC = "SyfFKj2rKt3CoKnELR1Io4ZDoSa70000";
 
