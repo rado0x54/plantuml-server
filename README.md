@@ -63,7 +63,7 @@ in order to be able to integrate it dynamically into
 
 This enables the usage of the following syntax:
 
-    ![MyModel](http://localhost:8080/plantuml/svg?uml=
+    ![MyModel](http://localhost:8080/plantuml/png?uml=
         @startuml
         Hans -> John : Hallo
         John -> Carla : Hey
@@ -73,17 +73,17 @@ This enables the usage of the following syntax:
     
 to automically generate the following image *on the fly*.
 
-![MyModel](screenshots/sequence_example.svg)
+![](screenshots/sequence_example.png)
 
 You can add the typical @startuml and @enduml but it's not needed as that's the default. Sample:
 
-    ![MyModel](http://localhost:8080/plantuml/svg?uml=
+    ![MyModel](http://localhost:8080/plantuml/png?uml=
         Hans -> John : Hallo
         John -> Carla : Hey
         Carla -> Hans : Ola!
     )
 
-Of course you need some only instance providing this service. Replace `http://localhost:8080/plantuml` accordingly and your should be good to go.
+Of course you need some online instance providing this service. Replace `http://localhost:8080/plantuml` accordingly and your should be good to go.
 
 ### Other
  - Migrated from `mvn` to `gradle`.
