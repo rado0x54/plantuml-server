@@ -37,4 +37,9 @@ dependencies {
 
     providedRuntime group: 'org.eclipse.jetty', name: 'apache-jstl', version: '9.4.2.v20170220'
 
+    // Latex Support
+    runtime group: 'org.scilab.forge', name: 'jlatexmath', version: '1.0.4'
+    runtime group: 'org.apache.xmlgraphics', name: 'batik-dom', version: '1.8'
+    runtime group: 'org.apache.xmlgraphics', name: 'batik-svggen', version: '1.8'
+
 }
