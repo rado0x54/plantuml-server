@@ -92,3 +92,4 @@ Of course you need some online instance providing this service. Replace `http://
  - Updated `Dockerfile` to use `jetty:latest` and added `Graphviz` and `HEALTHCHECK`
  - Integrated [Travis-CI](https://travis-ci.org/rado0x54/plantuml-server)
  - Automatically provide Docker Image of `master` on [DockerHub](https://hub.docker.com/r/rado0x54/plantuml)
+ - UMLDiagramService accepts optional `idx` parameter to support multipage diagrams.
