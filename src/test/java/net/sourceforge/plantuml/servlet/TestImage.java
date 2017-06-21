@@ -103,4 +103,30 @@ public class TestImage extends WebappTestCase {
             // Do nothing
         }
     }
+
+
+
+    public void testMultiPageImage() throws Exception {
+        WebConversation conversation = new WebConversation();
+        WebRequest requestIdx0 = new GetMethodWebRequest(getServerUrl() + "png/" + TestUtils.PAGED_DIAGRAM + "?" + Constants.INDEX_URL_ENC_PARAMETER + "=0");
+        WebResponse responseIdx0 = conversation.getResource(requestIdx0);
+
+        WebRequest requestIdx0_2 = new GetMethodWebRequest(getServerUrl() + "png/" + TestUtils.PAGED_DIAGRAM + "?" + Constants.INDEX_URL_ENC_PARAMETER + "=0");
+        WebResponse responseIdx0_2 = conversation.getResource(requestIdx0_2);
+
+        WebRequest requestIdx1 = new GetMethodWebRequest(getServerUrl() + "png/" + TestUtils.PAGED_DIAGRAM + "?" + Constants.INDEX_URL_ENC_PARAMETER + "=1");
+        WebResponse responseIdx1 = conversation.getResource(requestIdx1);
+
+        // Analyze response
+        // Verifies the Content-Type header
+        assertEquals("Response content type is not PNG", "image/png", responseIdx0.getContentType());
+        assertEquals("Response content type is not PNG", "image/png", responseIdx0_2.getContentType());
+        assertEquals("Response content type is not PNG", "image/png", responseIdx1.getContentType());
+
+
+        assertEquals(responseIdx0.getText().length(), responseIdx0_2.getText().length());
+        assertTrue(responseIdx0.getText().length() != responseIdx1.getText().length());
+    }
+
+
 }

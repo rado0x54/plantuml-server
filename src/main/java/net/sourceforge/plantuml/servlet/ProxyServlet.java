@@ -38,6 +38,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sourceforge.plantuml.BlockUml;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.SourceStringReader;
+import net.sourceforge.plantuml.common.Constants;
 import net.sourceforge.plantuml.core.Diagram;
 import net.sourceforge.plantuml.core.UmlSource;
 
@@ -59,9 +60,9 @@ public class ProxyServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        final String fmt = request.getParameter("fmt");
-        final String source = request.getParameter("src");
-        final String index = request.getParameter("idx");
+        final String fmt = request.getParameter(Constants.FORMAT_URL_ENC_PARAMETER);
+        final String source = request.getParameter(Constants.SOURCE_URL_ENC_PARAMETER);
+        final String index = request.getParameter(Constants.INDEX_URL_ENC_PARAMETER);
         final URL srcUrl;
         // Check if the src URL is valid
         try {
@@ -87,6 +88,7 @@ public class ProxyServlet extends HttpServlet {
         try {
             dr.sendDiagram(uml);
         } catch (IIOException iioe) {
+            iioe.printStackTrace();
             // Browser has closed the connection, so the HTTP OutputStream is closed
             // Silently catch the exception to avoid annoying log
         }

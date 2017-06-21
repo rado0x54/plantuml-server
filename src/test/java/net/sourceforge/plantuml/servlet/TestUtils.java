@@ -16,8 +16,18 @@ public class TestUtils {
     public static final String VERSION = "AqijAixCpmC0";
 
 
+    /*
+     * Paged Image:
+     */
+    public static final String PAGED_DIAGRAM = "IzIrIx9Io4ZDoSctvifBBIz8J4zLWD8bcIKvgLn9kdQ92bOAIOd9sGhvUI0v1P2aDG00";
+
+
     protected TestUtils() {
         // prevents calls from subclass
         throw new UnsupportedOperationException();
     }
+
+
+
+
 }

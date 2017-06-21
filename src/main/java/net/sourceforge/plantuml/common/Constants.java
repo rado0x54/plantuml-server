@@ -18,6 +18,9 @@ public final class Constants {
     public static final String DECODED_ATTRIBUTE_NAME = "decoded";
 
     public static final String UML_URL_ENC_PARAMETER = "uml";
+    public static final String FORMAT_URL_ENC_PARAMETER = "fmt";
+    public static final String SOURCE_URL_ENC_PARAMETER = "src";
+    public static final String INDEX_URL_ENC_PARAMETER = "idx";
 
 
     public static final Pattern REGEX_URL_LAST_PATH_PATTERN = Pattern.compile("^.*[^a-zA-Z0-9\\-\\_]([a-zA-Z0-9\\-\\_]+)");

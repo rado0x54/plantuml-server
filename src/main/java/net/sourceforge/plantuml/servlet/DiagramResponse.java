@@ -62,12 +62,16 @@ class DiagramResponse {
     }
 
     void sendDiagram(String uml) throws IOException {
+        sendDiagram(uml, 0);
+    }
+
+    void sendDiagram(String uml, int numImage) throws IOException {
         if (StringUtils.isDiagramCacheable(uml)) {
             addHeaderForCache();
         }
         response.setContentType(getContentType());
         SourceStringReader reader = new SourceStringReader(uml);
-        reader.generateImage(response.getOutputStream(), new FileFormatOption(format, false));
+        reader.generateImage(response.getOutputStream(), numImage, new FileFormatOption(format, false));
     }
 
     void sendMap(String uml) throws IOException {

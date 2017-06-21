@@ -45,6 +45,8 @@ public abstract class UmlDiagramService extends HttpServlet {
 
         // By default use uml parameter with URL ENC Content
         String uml = request.getParameter(Constants.UML_URL_ENC_PARAMETER);
+        int index = getDiagramIndex(request.getParameter(Constants.INDEX_URL_ENC_PARAMETER));
+
         if (uml == null) {
             // build the UML source from the compressed request parameter
             uml = UmlExtractor.getUmlSource(getSource(request.getRequestURI()));
@@ -56,7 +58,7 @@ public abstract class UmlDiagramService extends HttpServlet {
         // generate the response
         DiagramResponse dr = new DiagramResponse(response, getOutputFormat());
         try {
-            dr.sendDiagram(uml);
+            dr.sendDiagram(uml, index);
         } catch (IIOException iioe) {
             // Browser has closed the connection, so the HTTP OutputStream is closed
             // Silently catch the exception to avoid annoying log
@@ -79,5 +81,17 @@ public abstract class UmlDiagramService extends HttpServlet {
      * @return the format
      */
     abstract public FileFormat getOutputFormat();
+
+
+    private int getDiagramIndex(String parameter) {
+        int index = 0;
+        try {
+            index = Integer.parseInt(parameter);
+        } catch (NumberFormatException e) {
+            // keep 0
+        }
+
+        return index;
+    }
 
 }
